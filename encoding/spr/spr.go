@@ -121,7 +121,7 @@ type frameHeader struct {
 func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 	var headers []*frameHeader
 
-	var i uint16 = 0
+	var i uint16
 
 	for ; i < header.frameCount; i++ {
 		entry := make([]byte, frameHeaderSize)
@@ -178,7 +178,7 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 
 	var colors []color
 
-	var i uint16 = 0
+	var i uint16
 	for ; i < header.colorTableEntries; i++ {
 		entry := colorTable[4*i : 4*(i+1)]
 
