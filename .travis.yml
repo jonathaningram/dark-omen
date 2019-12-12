@@ -1,0 +1,11 @@
+language: go
+
+os:
+  - linux
+  - osx
+  - windows
+
+go:
+  - master
+
+script: make test
