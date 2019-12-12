@@ -4,13 +4,13 @@ A program that reads through every `.SPR` sprite file in Dark Omen's data and du
 
 ## Installation
 
-Use `go install` to download and install the program
+Use `go get` to download and install the program
 
 ```shell
-go install github.com/jonathaningram/dark-omen/cmd/spr-dump
+go get github.com/jonathaningram/dark-omen/cmd/spr-dump
 ```
 
-See `go help install` for more information.
+See `go help get` for more information.
 
 ## Usage
 
