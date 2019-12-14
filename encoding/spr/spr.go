@@ -120,9 +120,7 @@ type frameHeader struct {
 func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 	var headers []*frameHeader
 
-	var i uint16
-
-	for ; i < header.frameCount; i++ {
+	for i := uint16(0); i < header.frameCount; i++ {
 		entry := make([]byte, frameHeaderSize)
 		_, err := d.r.ReadAt(entry, int64(header.frameHeaderOffset+i*frameHeaderSize))
 		if err != nil {
@@ -177,8 +175,7 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 
 	var colors []color
 
-	var i uint16
-	for ; i < header.colorTableEntries; i++ {
+	for i := uint16(0); i < header.colorTableEntries; i++ {
 		entry := colorTable[4*i : 4*(i+1)]
 
 		colors = append(colors, color{
