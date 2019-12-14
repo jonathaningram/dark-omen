@@ -26,7 +26,7 @@ func TestDecoder_Decode(t *testing.T) {
 				return bytes.NewReader(buf.Bytes())
 			},
 			err: func(err error) (string, bool) {
-				partial := "header only read 8 bytes"
+				partial := "header only read 8 byte(s)"
 				return partial, err != nil && strings.Contains(err.Error(), partial)
 			},
 		},
