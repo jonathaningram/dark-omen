@@ -87,7 +87,7 @@ func (d *Decoder) readHeader() (*header, error) {
 	buf := make([]byte, headerSize)
 	n, err := d.r.ReadAt(buf, 0)
 	if n != headerSize {
-		return nil, fmt.Errorf("header only read %d bytes, expected to read %d", n, headerSize)
+		return nil, fmt.Errorf("header only read %d byte(s), expected to read %d", n, headerSize)
 	}
 	if err != nil && err != io.EOF {
 		return nil, err
