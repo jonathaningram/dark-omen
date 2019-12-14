@@ -1,5 +1,4 @@
-// Package spr implements SPR decoding as used in the video game Warhammer:
-// Dark Omen (© Electronic Arts) and as found in the game's .SPR sprite files.
+// Package spr implements decoding of Dark Omen's .SPR sprite files.
 //
 // The method used in this decoder is based off the method from the Dark Omen
 // Wiki at http://wiki.dark-omen.org/do/DO/Updated_Sprite_Format.
@@ -252,7 +251,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 }
 
 // A Sprite is made up a list of frames.
-// In Warhammer: Dark Omen, the format is always "WHDO".
+// In Dark Omen, the format is always "WHDO".
 type Sprite struct {
 	Format string
 	Frames []*Frame
