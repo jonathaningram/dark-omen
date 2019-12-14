@@ -4,7 +4,7 @@ A program that reads through every `.SPR` sprite file in Dark Omen's data and du
 
 ## Installation
 
-Use `go get` to download and install the program
+Use `go get` to download and install the program.
 
 ```shell
 go get github.com/jonathaningram/dark-omen/cmd/spr-dump
@@ -14,7 +14,9 @@ See `go help get` for more information.
 
 ## Usage
 
-Pass the path to the Dark Omen CD data as well as the path to the output directory.
+Pass the path to the Dark Omen CD data as well as the path to the output directory when running the program.
+
+For Unix-based systems the command may look something like:
 
 ```shell
 spr-dump -dark-omen-path=/dark-omen-game-from-cd -output-path=/tmp/dark-omen-spr-dump
