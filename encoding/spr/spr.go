@@ -10,6 +10,8 @@ import (
 	"image"
 	imagecolor "image/color"
 	"io"
+
+	"github.com/disintegration/imaging"
 )
 
 const (
@@ -163,7 +165,7 @@ func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 }
 
 type color struct {
-	B, G, R uint8
+	B, G, R, A uint8
 }
 
 func (d *Decoder) readColorTable(header *header) ([]color, error) {
@@ -178,11 +180,18 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 	for i := uint16(0); i < header.colorTableEntries; i++ {
 		entry := colorTable[4*i : 4*(i+1)]
 
+		// byte 4 (index 3) is not used
+		b, g, r, a := entry[0], entry[1], entry[2], uint8(255)
+
+		if b < 8 && g < 8 && r < 8 {
+			a = 0
+		}
+
 		colors = append(colors, color{
 			B: entry[0],
 			G: entry[1],
 			R: entry[2],
-			// byte 4 (index 3) is not used
+			A: a,
 		})
 	}
 
@@ -217,7 +226,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 			return nil, fmt.Errorf("unsupported compression type %d", info.compressionType)
 		}
 
-		img := image.NewRGBA(image.Rect(0, 0, info.width, info.height))
+		img := image.NewNRGBA(image.Rect(0, 0, info.width, info.height))
 
 		var x int
 		var y int
@@ -227,7 +236,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 				R: colors[b].R,
 				G: colors[b].G,
 				B: colors[b].B,
-				A: 255,
+				A: colors[b].A,
 			})
 
 			if x == img.Rect.Max.X-1 {
@@ -236,6 +245,16 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 				continue
 			}
 			x++
+		}
+
+		switch info.frameType {
+		case FrameTypeFlipHorizontally:
+			img = imaging.FlipH(img)
+		case FrameTypeFlipHorizontallyAndVertically:
+			img = imaging.FlipH(img)
+			img = imaging.FlipV(img)
+		case FrameTypeFlipVertically:
+			img = imaging.FlipV(img)
 		}
 
 		frames = append(frames, &Frame{
