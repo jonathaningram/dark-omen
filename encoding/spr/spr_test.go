@@ -5,10 +5,24 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+	"os"
+	"path"
 	"reflect"
 	"strings"
 	"testing"
 )
+
+func runIfDarkOmenPathSet(t *testing.T) string {
+	t.Helper()
+
+	const darkOmenPathEnv = "DARK_OMEN_PATH"
+
+	v := os.Getenv(darkOmenPathEnv)
+	if v == "" {
+		t.Skipf("skipping test when %s environment variable is not set", darkOmenPathEnv)
+	}
+	return v
+}
 
 func TestDecoder_Decode(t *testing.T) {
 	tests := []struct {
@@ -90,6 +104,54 @@ func TestDecoder_Decode(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.sprite) {
 				t.Errorf("Decoder.Decode() sprite = %v, want %v", got, tt.sprite)
+			}
+		})
+	}
+}
+
+func TestDecoder_DecodeReal(t *testing.T) {
+	tests := []struct {
+		name       string
+		path       string
+		sprite     *Sprite
+		frameCount int
+		err        func(err error) (wantDesc string, pass bool)
+	}{
+		{
+			name:       "SPRITES/BERNHD.SPR",
+			path:       path.Join("DARKOMEN", "DARKOMEN", "GRAPHICS", "SPRITES", "BERNHD.SPR"),
+			frameCount: 104,
+			err: func(err error) (string, bool) {
+				return "nil", err == nil
+			},
+		},
+		{
+			name:       "BANNERS/HBGRUCAV.SPR",
+			path:       path.Join("DARKOMEN", "DARKOMEN", "GRAPHICS", "BANNERS", "HBGRUCAV.SPR"),
+			frameCount: 2,
+			err: func(err error) (string, bool) {
+				return "nil", err == nil
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			darkOmenPath := runIfDarkOmenPathSet(t)
+
+			f, err := os.Open(path.Join(darkOmenPath, tt.path))
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer f.Close()
+
+			d := NewDecoder(f)
+			got, err := d.Decode()
+			if wantDesc, ok := tt.err(err); !ok {
+				t.Errorf("Decoder.Decode() error = %v, want %v", err, wantDesc)
+				return
+			}
+			if len(got.Frames) != tt.frameCount {
+				t.Errorf("Decoder.Decode() sprite frame count = %v, want %v", len(got.Frames), tt.frameCount)
 			}
 		})
 	}
