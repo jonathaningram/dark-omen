@@ -39,7 +39,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		if path.Ext(info.Name()) != ".SPR" {
+		if strings.ToUpper(path.Ext(info.Name())) != ".SPR" {
 			return nil
 		}
 
