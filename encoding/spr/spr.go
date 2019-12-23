@@ -120,7 +120,7 @@ type frameHeader struct {
 }
 
 func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
-	var headers []*frameHeader
+	headers := make([]*frameHeader, header.frameCount)
 
 	for i := uint16(0); i < header.frameCount; i++ {
 		entry := make([]byte, frameHeaderSize)
@@ -145,7 +145,7 @@ func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 		colorTableOffset := binary.LittleEndian.Uint16(entry[24:28])
 		// last 4 bytes are not used
 
-		headers = append(headers, &frameHeader{
+		headers[i] = &frameHeader{
 			frameType:        frameType,
 			compressionType:  compressionType,
 			colorCount:       int(colorCount),
@@ -158,7 +158,7 @@ func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 			uncompressedSize: int(uncompressedSize),
 			colorTableOffset: int(colorTableOffset),
 			// last 4 bytes are not used
-		})
+		}
 	}
 
 	return headers, nil
@@ -175,7 +175,7 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 		return nil, err
 	}
 
-	var colors []color
+	colors := make([]color, header.colorTableEntries)
 
 	for i := uint16(0); i < header.colorTableEntries; i++ {
 		entry := colorTable[4*i : 4*(i+1)]
@@ -187,21 +187,21 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 			a = 0
 		}
 
-		colors = append(colors, color{
+		colors[i] = color{
 			B: entry[0],
 			G: entry[1],
 			R: entry[2],
 			A: a,
-		})
+		}
 	}
 
 	return colors, nil
 }
 
 func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, colors []color) ([]*Frame, error) {
-	var frames []*Frame
+	frames := make([]*Frame, len(frameHeaders))
 
-	for _, info := range frameHeaders {
+	for i, info := range frameHeaders {
 		var raw []byte
 		var err error
 
@@ -257,10 +257,10 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 			img = imaging.FlipV(img)
 		}
 
-		frames = append(frames, &Frame{
+		frames[i] = &Frame{
 			Type:  info.frameType,
 			Image: img,
-		})
+		}
 	}
 
 	return frames, nil
