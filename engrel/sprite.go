@@ -20,14 +20,14 @@ const (
 // The given reader should contain the contents of the PRG_ENG/ENGREL.EXE file
 // found in Dark Omen.
 func ReadSpriteNames(r io.ReaderAt) ([]string, error) {
-	var names []string
+	names := make([]string, spriteCount)
 
 	for index := int64(0); index < spriteCount; index++ {
 		name, err := readSpriteName(r, index)
 		if err != nil {
 			return nil, fmt.Errorf("could not read sprite name at index %d: %w", index, err)
 		}
-		names = append(names, name)
+		names[index] = name
 	}
 
 	return names, nil
