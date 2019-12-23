@@ -81,11 +81,16 @@ func main() {
 				fmt.Printf("failed\n")
 				return err
 			}
+			defer out.Close()
 
 			err = png.Encode(out, f.Image)
 			if err != nil {
 				fmt.Printf("failed\n")
 				return fmt.Errorf("could not encode PNG file for frame %d: %w", i, err)
+			}
+
+			if err := out.Sync(); err != nil {
+				return fmt.Errorf("could not sync PNG file for frame %d: %w", i, err)
 			}
 		}
 
