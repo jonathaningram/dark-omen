@@ -8,7 +8,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"image"
-	imagecolor "image/color"
+	"image/color"
 	"io"
 
 	"github.com/disintegration/imaging"
@@ -164,18 +164,14 @@ func (d *Decoder) readFrameHeaders(header *header) ([]*frameHeader, error) {
 	return headers, nil
 }
 
-type color struct {
-	B, G, R, A uint8
-}
-
-func (d *Decoder) readColorTable(header *header) ([]color, error) {
+func (d *Decoder) readColorTable(header *header) ([]color.RGBA, error) {
 	colorTable := make([]byte, 4*header.colorTableEntries)
 	_, err := d.r.ReadAt(colorTable, header.colorTableOffset)
 	if err != nil {
 		return nil, err
 	}
 
-	colors := make([]color, header.colorTableEntries)
+	colors := make([]color.RGBA, header.colorTableEntries)
 
 	for i := uint16(0); i < header.colorTableEntries; i++ {
 		entry := colorTable[4*i : 4*(i+1)]
@@ -187,7 +183,7 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 			a = 0
 		}
 
-		colors[i] = color{
+		colors[i] = color.RGBA{
 			B: entry[0],
 			G: entry[1],
 			R: entry[2],
@@ -198,7 +194,7 @@ func (d *Decoder) readColorTable(header *header) ([]color, error) {
 	return colors, nil
 }
 
-func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, colors []color) ([]*Frame, error) {
+func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, colors []color.RGBA) ([]*Frame, error) {
 	frames := make([]*Frame, len(frameHeaders))
 
 	for i, info := range frameHeaders {
@@ -232,12 +228,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 		var y int
 
 		for _, b := range raw {
-			img.Set(x, y, imagecolor.RGBA{
-				R: colors[b].R,
-				G: colors[b].G,
-				B: colors[b].B,
-				A: colors[b].A,
-			})
+			img.Set(x, y, colors[info.colorTableOffset+int(b)])
 
 			if x == img.Rect.Max.X-1 {
 				x = 0
