@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	// Format is the format ID used in all .M3D files.
+	// format is the format ID used in all .M3D files.
 	format = "PD3M"
 
 	headerSize       = 24
@@ -111,6 +111,7 @@ func (d *Decoder) Decode() (*Model, error) {
 	}
 
 	return &Model{
+		format:   format,
 		Textures: textures,
 		Objects:  objects,
 	}, nil
