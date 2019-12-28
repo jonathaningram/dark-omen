@@ -15,9 +15,9 @@ import (
 )
 
 const (
-	// Format is the sprite format ID used in all .SPR files.
+	// format is the sprite format ID used in all .SPR files.
 	// "WHDO" is an initialism for "Warhammer: Dark Omen".
-	Format = "WHDO"
+	format = "WHDO"
 
 	headerSize      = 32
 	frameHeaderSize = 32
@@ -41,8 +41,8 @@ func (d *Decoder) Decode() (*Sprite, error) {
 		return nil, err
 	}
 
-	if f := header.format; f != Format {
-		return nil, fmt.Errorf("unknown sprite format %q, expected %q", f, Format)
+	if f := header.format; f != format {
+		return nil, fmt.Errorf("unknown sprite format %q, expected %q", f, format)
 	}
 
 	frameHeaders, err := d.readFrameHeaders(header)
@@ -51,7 +51,7 @@ func (d *Decoder) Decode() (*Sprite, error) {
 	}
 
 	sprite := &Sprite{
-		Format: header.format,
+		format: header.format,
 	}
 
 	if len(frameHeaders) == 0 {
@@ -260,7 +260,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 // A Sprite is made up a list of frames.
 // In Dark Omen, the format is always "WHDO".
 type Sprite struct {
-	Format string
+	format string
 	Frames []*Frame
 }
 

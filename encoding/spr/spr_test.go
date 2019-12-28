@@ -71,7 +71,7 @@ func TestDecoder_Decode(t *testing.T) {
 				buf.Write(frameCount)
 				return bytes.NewReader(buf.Bytes())
 			},
-			sprite: &Sprite{Format: "WHDO"},
+			sprite: &Sprite{format: "WHDO"},
 			err: func(err error) (string, bool) {
 				return "nil", err == nil
 			},
