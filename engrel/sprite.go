@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/jonathaningram/dark-omen/internal/cstringutils"
+	"github.com/jonathaningram/dark-omen/internal/cstringutil"
 )
 
 const (
@@ -53,5 +53,5 @@ func readSpriteName(r io.ReaderAt, index int64) (string, error) {
 		}
 		return "", err
 	}
-	return cstringutils.ToGo(buf), nil
+	return cstringutil.ToGo(buf), nil
 }

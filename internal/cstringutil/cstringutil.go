@@ -1,4 +1,5 @@
-package cstringutils
+// Package cstringutil contains utility functions for working with C strings.
+package cstringutil
 
 // ToGo converts the C string represented by the provided bytes to a Go string.
 func ToGo(n []byte) string {
