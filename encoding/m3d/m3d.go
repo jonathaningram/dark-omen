@@ -22,7 +22,7 @@ const (
 	objectVertexSize = (2 * vectorSize) + 20
 )
 
-// A Model is made up a list of textures and a list of objects.
+// A Model is made up of a list of textures and a list of objects.
 // In Dark Omen, the format is always "PD3M".
 type Model struct {
 	format   string
