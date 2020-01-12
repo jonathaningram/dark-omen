@@ -1,5 +1,3 @@
-// Package engrel provides functions that can access information found in Dark
-// Omen's PRG_ENG/ENGREL.exe executable file.
 package engrel
 
 import (
@@ -42,12 +40,12 @@ func ReadSpriteName(r io.ReaderAt, index int64) (string, error) {
 
 func readSpriteName(r io.ReaderAt, index int64) (string, error) {
 	if index > spriteCount-1 {
-		return "", fmt.Errorf("expected sprite name index to be less than %d, got %d", spriteCount, index)
+		return "", fmt.Errorf("expected index to be less than %d, got %d", spriteCount, index)
 	}
 	buf := make([]byte, spriteNameSize)
 	n, err := r.ReadAt(buf, spriteNamesStartOffset+spriteNameSize*index)
 	if n != spriteNameSize {
-		return "", fmt.Errorf("read %d byte(s), expected to read %d", n, spriteNameSize)
+		return "", fmt.Errorf("read %d byte(s), expected %d", n, spriteNameSize)
 	}
 	if err != nil {
 		if err == io.EOF {
