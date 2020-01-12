@@ -50,9 +50,7 @@ func (d *Decoder) Decode() (*Sprite, error) {
 		return nil, err
 	}
 
-	sprite := &Sprite{
-		format: header.format,
-	}
+	sprite := &Sprite{format: header.format}
 
 	if len(frameHeaders) == 0 {
 		return sprite, nil
@@ -88,7 +86,7 @@ func (d *Decoder) readHeader() (*header, error) {
 	buf := make([]byte, headerSize)
 	n, err := d.r.ReadAt(buf, 0)
 	if n != headerSize {
-		return nil, fmt.Errorf("header only read %d byte(s), expected to read %d", n, headerSize)
+		return nil, fmt.Errorf("header only read %d byte(s), expected %d", n, headerSize)
 	}
 	if err != nil && err != io.EOF {
 		return nil, err
@@ -257,7 +255,7 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 	return frames, nil
 }
 
-// A Sprite is made up a list of frames.
+// A Sprite is made up of a list of frames.
 // In Dark Omen, the format is always "WHDO".
 type Sprite struct {
 	format string
