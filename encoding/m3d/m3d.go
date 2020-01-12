@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/jonathaningram/dark-omen/internal/cstringutils"
+	"github.com/jonathaningram/dark-omen/internal/cstringutil"
 )
 
 const (
@@ -176,8 +176,8 @@ func (d *Decoder) readTexture(startPos int64) (texture *Texture, pos int64, err 
 		return nil, pos, err
 	}
 	return &Texture{
-		Path:     cstringutils.ToGo(buf[:64]),
-		FileName: cstringutils.ToGo(buf[64:]),
+		Path:     cstringutil.ToGo(buf[:64]),
+		FileName: cstringutil.ToGo(buf[64:]),
 	}, pos, nil
 }
 
@@ -233,7 +233,7 @@ func (d *Decoder) readObject(startPos int64) (object *Object, pos int64, err err
 	}
 
 	return &Object{
-		Name:        cstringutils.ToGo(buf[:32]),
+		Name:        cstringutil.ToGo(buf[:32]),
 		ParentIndex: int16(binary.LittleEndian.Uint16(buf[32:34])),
 		padding:     int16(binary.LittleEndian.Uint16(buf[34:36])),
 		Pivot:       pivot,

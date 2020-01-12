@@ -1,4 +1,4 @@
-package cstringutils
+package cstringutil
 
 import "testing"
 
