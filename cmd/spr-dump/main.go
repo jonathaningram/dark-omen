@@ -51,7 +51,7 @@ func main() {
 
 		relativePath := strings.TrimPrefix(p, *darkOmenPath)
 
-		fmt.Printf("Extracting %s...", relativePath)
+		fmt.Printf("Decoding %s...", relativePath)
 
 		d := spr.NewDecoder(f)
 
@@ -98,10 +98,6 @@ func main() {
 
 		return nil
 	})
-	check(err)
-}
-
-func check(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
