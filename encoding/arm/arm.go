@@ -71,9 +71,97 @@ func (d *Decoder) Decode() (*Army, error) {
 		return nil, err
 	}
 
+	// fmt.Printf("%#v\n", header)                         // TODO
+	fmt.Printf("regiment count: %d\n", header.regimentCount) // TODO
+	// fmt.Printf("%d\n", header.regimentBlockSize)        // TODO
+	fmt.Printf("race=%d\n", header.race)                                          // TODO
+	fmt.Printf("default name=%s\n", header.defaultName)                           // TODO
+	fmt.Printf("army name=%s\n", header.armyName)                                 // TODO
+	fmt.Printf("goldInCoffers=%d\n", header.goldInCoffers)                        // TODO
+	fmt.Printf("goldFromTreasures=%d\n", header.goldFromTreasures)                // TODO
+	fmt.Printf("small banner file=%s\n", header.smallBannerPath)                  // TODO
+	fmt.Printf("small banner disabled file=%s\n", header.smallBannerDisabledPath) // TODO
+	fmt.Printf("large banner file=%s\n", header.largeBannerPath)                  // TODO
+	fmt.Printf("magic items = %v % x\n", header.magicItems, header.magicItems)    // TODO
+
+	if header.armyName != "" {
+		panic(header.armyName) // TOD
+	}
+
+	// TODO
+	if header.regimentCount != 15 {
+		// log.Println("not 15, so exiting for now")
+		// return nil, nil
+	}
+
 	regiments, err := d.readRegiments(header, startPos)
 	if err != nil {
 		return nil, err
+	}
+
+	// TODO
+	for i, r := range regiments {
+		if r.Name == "" {
+			// continue
+		}
+		if i != 0 {
+			// continue
+		}
+
+		// if r.Race() == RegimentRaceOgre {
+		// 	fmt.Printf("\nName = %v\n", r.Name)
+		// }
+		// continue
+
+		// fmt.Printf("name = %s, id = %v, book profile = %v\n", r.Leader.Name, r.id, r.bookProfile)
+		// continue
+
+		fmt.Printf("\nstatus = %v\n", r.status)
+		fmt.Printf("unknown1 = %v\n", r.unknown1)
+		fmt.Printf("unit ID = %d\n", r.id)
+		fmt.Printf("duplicateID ID = %d\n", r.duplicateID)
+		fmt.Printf("alignment = %v\n", r.alignment)
+		fmt.Printf("name = %s, book profile = %v\n", r.Name, r.bookProfile)
+		fmt.Printf("name ID = %d\n", r.nameID)
+		fmt.Printf("sprite = %d\n", r.SpriteIndex)
+		fmt.Printf("max units = %d\n", r.MaxTroops)
+		fmt.Printf("alive units = %d\n", r.AliveTroops)
+		fmt.Printf("ranks = %d\n", r.ranks)
+		fmt.Printf("banner sprite = %d\n", r.BannerIndex)
+		fmt.Printf("regiment attrs = %v\n", r.regimentAttributes)
+		fmt.Printf("leader = %#v\n", r.Leader)
+		fmt.Printf("leader attrs = %v\n", r.Leader.attributes)
+		fmt.Printf("experience = %v\n", r.Experience)
+		fmt.Printf("minArmour = %v\n", r.MinArmour)
+		fmt.Printf("maxArmour = %v\n", r.MaxArmour)
+		fmt.Printf("armour = %v\n", r.armour)
+		fmt.Printf("magicBook = %v\n", r.MagicBook)
+		fmt.Printf("magicItems = %v\n", r.MagicItems)
+		fmt.Printf("bookProfile = %v\n", r.bookProfile)
+		fmt.Printf("cost = %v\n", r.Cost)
+		fmt.Printf("WizardType = %v\n", r.WizardType)
+		fmt.Printf("purchasedArmour = %v\n", r.purchasedArmour)
+		fmt.Printf("maxPurchasableArmour = %v\n", r.maxPurchasableArmour)
+		fmt.Printf("repurchasedTroops = %v\n", r.repurchasedTroops)
+		fmt.Printf("maxPurchasableTroops = %v\n", r.maxPurchasableTroops)
+		fmt.Printf("type = %d, type = %v, race = %v\n", r.typ, r.typeLabel(), r.raceLabel())
+		fmt.Printf("unknown 1 = %v\n", r.unknown1)
+		fmt.Printf("unknown 2 = %v\n", r.unknown2)
+		fmt.Printf("unknown 3 = %v\n", r.unknown3)
+		fmt.Printf("unknown 4 = %v\n", r.unknown4)
+		fmt.Printf("unknown 5 = %v\n", r.unknown5)
+		fmt.Printf("unknown 6 = %v\n", r.unknown6)
+		fmt.Printf("unknown 7 = %v\n", r.unknown7)
+
+		// if !reflect.DeepEqual(r.unknown1, []byte{0, 0}) {
+		// 	panic(r.unknown1)
+		// }
+		// if !reflect.DeepEqual(r.unknown2, []byte{0, 0}) {
+		// 	panic(r.unknown2)
+		// }
+		// if !reflect.DeepEqual(r.unknown3, []byte{0, 0}) {
+		// 	panic(r.unknown3)
+		// }
 	}
 
 	army := &Army{

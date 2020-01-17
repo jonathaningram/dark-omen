@@ -3,7 +3,7 @@ package arm
 import "math"
 
 type Regiment struct {
-	status []byte
+	status []byte // TODO: 11 00 = unit with you. 10 00 = don't have unit...
 	id     uint16
 
 	// Name is the name of the regiment, e.g. "Grudgebringer Cavalry",
@@ -97,7 +97,7 @@ type Regiment struct {
 type RegimentType int
 
 const (
-	RegimentTypeUnknown RegimentType = iota
+	RegimentTypeUnknown RegimentType = iota // 0b00000
 	RegimentTypeInfantry
 	RegimentTypeCavalry
 	RegimentTypeArchers
@@ -105,28 +105,76 @@ const (
 	RegimentTypeMagicUsers
 	RegimentTypeMonsters
 	RegimentTypeChariots
-	RegimentTypeMisc
+	RegimentTypeMisc // 0b01000
 )
 
 func (r *Regiment) Type() RegimentType {
 	return RegimentType(r.typ >> 3)
 }
 
+func (r *Regiment) typeLabel() string {
+	switch r.Type() {
+	case RegimentTypeInfantry:
+		return "Infantry"
+	case RegimentTypeCavalry:
+		return "Cavalry"
+	case RegimentTypeArchers:
+		return "Archers"
+	case RegimentTypeArtillery:
+		return "Artillery"
+	case RegimentTypeMagicUsers:
+		return "Magic users"
+	case RegimentTypeMonsters:
+		return "Monsters"
+	case RegimentTypeChariots:
+		return "Chariots"
+	case RegimentTypeUnknown:
+		fallthrough
+	case RegimentTypeMisc:
+		fallthrough
+	default:
+		return "Unknown"
+	}
+}
+
 type RegimentRace int
 
 const (
-	RegimentRaceHuman RegimentRace = iota
+	RegimentRaceHuman RegimentRace = iota // 0b000
 	RegimentRaceWoodElf
 	RegimentRaceDwarf
 	RegimentRaceNightGoblin
 	RegimentRaceOrc
 	RegimentRaceUndead
 	RegimentRaceTownsfolk
-	RegimentRaceOgre // TODO: The Imperial Steam Tank sits under this so maybe a different name.
+	RegimentRaceOgre // 0b111 // TODO: The Imperial Steam Tank sits under this so maybe a different name.
 )
 
 func (r *Regiment) Race() RegimentRace {
 	return RegimentRace((r.typ >> 0) & ((1 << 3) - 1))
+}
+
+func (r *Regiment) raceLabel() string {
+	switch r.Race() {
+	case RegimentRaceHuman:
+		return "Human"
+	case RegimentRaceWoodElf:
+		return "Woof Elf"
+	case RegimentRaceDwarf:
+		return "Dwarf"
+	case RegimentRaceNightGoblin:
+		return "Night Goblin"
+	case RegimentRaceOrc:
+		return "Orc"
+	case RegimentRaceUndead:
+		return "Undead"
+	case RegimentRaceTownsfolk:
+		return "Townsfolk"
+	case RegimentRaceOgre:
+		return "Ogre"
+	default:
+		return "Unknown"
+	}
 }
 
 type troopAttributes struct {
