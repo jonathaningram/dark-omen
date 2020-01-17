@@ -35,16 +35,16 @@ go get -u github.com/jonathaningram/dark-omen
 
 The following game files are supported in the library.
 
-| Kind                         | File extension | Decoder | Encoder | Known issues?                                   |
-| ---------------------------- | -------------- | ------- | ------- | ----------------------------------------------- |
-| Army and saved games         | .ARM           | ❌      | ❌      | ❌ Not supported yet                            |
-| [Dot](encoding/dot)          | .DOT           | ✅      | ❌      | ✅ None                                         |
-| [Font](encoding/fnt)         | .FNT           | ✅      | ❌      | ⚠️ Yes, height/line-height possibly not correct |
-| [3D model](encoding/m3d)     | .M3D           | ✅      | ❌      | ✅ None                                         |
-| [Mono audio](encoding/mad)   | .MAD           | ✅      | ✅      | ✅ None                                         |
-| [Project](encoding/prj)      | .PRJ           | ✅      | ❌      | ⚠️ None, but untested                           |
-| [Stereo audio](encoding/sad) | .SAD           | ✅      | ✅      | ✅ None                                         |
-| [Sprite](encoding/spr)       | .SPR           | ✅      | ❌      | ✅ None                                         |
+| Kind                                 | File extension | Decoder | Encoder | Known issues?                                   |
+| ------------------------------------ | -------------- | ------- | ------- | ----------------------------------------------- |
+| [Army and saved games](encoding/arm) | .ARM           | ✅      | ❌      | ⚠️ Yes, experimental and incomplete             |
+| [Dot](encoding/dot)                  | .DOT           | ✅      | ❌      | ✅ None                                         |
+| [Font](encoding/fnt)                 | .FNT           | ✅      | ❌      | ⚠️ Yes, height/line-height possibly not correct |
+| [3D model](encoding/m3d)             | .M3D           | ✅      | ❌      | ✅ None                                         |
+| [Mono audio](encoding/mad)           | .MAD           | ✅      | ✅      | ✅ None                                         |
+| [Project](encoding/prj)              | .PRJ           | ✅      | ❌      | ⚠️ None, but untested                           |
+| [Stereo audio](encoding/sad)         | .SAD           | ✅      | ✅      | ✅ None                                         |
+| [Sprite](encoding/spr)               | .SPR           | ✅      | ❌      | ✅ None                                         |
 
 ## Tests
 
