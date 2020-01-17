@@ -12,6 +12,8 @@ import (
 
 const (
 	// format is the format ID used in all .M3D files.
+	// "PD3M" is probably "M3DP" backwards, which is probably "Model 3D
+	// <something>".
 	format = "PD3M"
 
 	headerSize       = 24
