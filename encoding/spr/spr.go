@@ -256,7 +256,6 @@ func (d *Decoder) readFrameData(header *header, frameHeaders []*frameHeader, col
 }
 
 // A Sprite is made up of a list of frames.
-// In Dark Omen, the format is always "WHDO".
 type Sprite struct {
 	format string
 	Frames []*Frame
