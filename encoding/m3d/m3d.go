@@ -1,4 +1,3 @@
-// Package m3d implements decoding of Dark Omen's .M3D 3D model files.
 package m3d
 
 import (
@@ -25,7 +24,6 @@ const (
 )
 
 // A Model is made up of a list of textures and a list of objects.
-// In Dark Omen, the format is always "PD3M".
 type Model struct {
 	format   string
 	Textures []*Texture
