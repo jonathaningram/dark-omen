@@ -296,6 +296,7 @@ const (
 type Frame struct {
 	// Type provides information about how to interpret the frame image.
 	Type FrameType
-	// Image is the decoded frame data converted into an image.Image.
-	Image image.Image
+	// Image is the decoded frame data converted into a non-alpha-premultiplied
+	// 32-bit color image.
+	Image *image.NRGBA
 }
