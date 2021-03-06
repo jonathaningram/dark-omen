@@ -1,7 +1,7 @@
 # Warhammer: Dark Omen Go library
 
 [![GoDoc](https://godoc.org/github.com/jonathaningram/dark-omen?status.svg)](http://godoc.org/github.com/jonathaningram/dark-omen)
-[![Build status](https://travis-ci.org/jonathaningram/dark-omen.svg?branch=master)](https://travis-ci.org/jonathaningram/dark-omen)
+[![Build status](https://github.com/jonathaningram/dark-omen/workflows/Go/badge.svg?branch=master)](https://github.com/jonathaningram/dark-omen/actions)
 [![Report card](https://goreportcard.com/badge/github.com/jonathaningram/dark-omen)](https://goreportcard.com/report/github.com/jonathaningram/dark-omen)
 [![Sourcegraph](https://sourcegraph.com/github.com/jonathaningram/dark-omen/-/badge.svg)](https://sourcegraph.com/github.com/jonathaningram/dark-omen?badge)
 
@@ -35,5 +35,5 @@ go get -u github.com/jonathaningram/dark-omen
 To run all tests:
 
 ```sh
-go test ./...
+go test -race ./...
 ```

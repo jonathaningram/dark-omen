@@ -1,6 +1,6 @@
 module github.com/jonathaningram/dark-omen
 
-go 1.13
+go 1.16
 
 require (
 	github.com/disintegration/imaging v1.6.2
