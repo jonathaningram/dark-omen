@@ -14,6 +14,7 @@ This library does not ship with any Dark Omen assets. You must have a legally pu
 ## Table of contents
 
 - [Installation](#installation)
+- [Game file support](#game-file-support)
 - [Tests](#tests)
 
 ## Installation
@@ -29,6 +30,21 @@ To update the library use `go get -u` to retrieve the latest version of the libr
 ```shell
 go get -u github.com/jonathaningram/dark-omen
 ```
+
+## Game file support
+
+The following game files are supported in the library.
+
+| Kind                         | File extension | Decoder | Encoder | Known issues?                                                                   |
+| ---------------------------- | -------------- | ------- | ------- | ------------------------------------------------------------------------------- |
+| Army and saved games         | .ARM           | ❌      | ❌      | ❌ Not supported yet                                                            |
+| [Dot](encoding/dot)          | .DOT           | ✅      | ❌      | ✅ None                                                                         |
+| [Font](encoding/fnt)         | .FNT           | ✅      | ❌      | ⚠️ Yes, height/line-height possibly not correct                                 |
+| [3D model](encoding/m3d)     | .M3D           | ✅      | ❌      | ✅ None                                                                         |
+| [Mono audio](encoding/mad)   | .MAD           | ✅      | ✅      | ✅ None                                                                         |
+| [Project](encoding/prj)      | .PRJ           | ✅      | ❌      | ⚠️ None, but untested                                                           |
+| [Stereo audio](encoding/sad) | .SAD           | ✅      | ✅      | ⚠️ Yes, some crackling, e.g. when decoded to WAV `11EERIE.SAD` has some at 1:26 |
+| [Sprite](encoding/spr)       | .SPR           | ✅      | ❌      | ✅ None                                                                         |
 
 ## Tests
 
