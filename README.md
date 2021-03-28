@@ -1,9 +1,9 @@
 # Warhammer: Dark Omen Go library
 
-[![GoDoc](https://godoc.org/github.com/jonathaningram/dark-omen?status.svg)](http://godoc.org/github.com/jonathaningram/dark-omen)
+[![Go reference](https://pkg.go.dev/badge/github.com/jonathaningram/dark-omen.svg)](https://pkg.go.dev/github.com/jonathaningram/dark-omen)
 [![Build status](https://github.com/jonathaningram/dark-omen/workflows/Go/badge.svg?branch=master)](https://github.com/jonathaningram/dark-omen/actions)
 [![Report card](https://goreportcard.com/badge/github.com/jonathaningram/dark-omen)](https://goreportcard.com/report/github.com/jonathaningram/dark-omen)
-[![Sourcegraph](https://sourcegraph.com/github.com/jonathaningram/dark-omen/-/badge.svg)](https://sourcegraph.com/github.com/jonathaningram/dark-omen?badge)
+[![Sourcegraph](https://sourcegraph.com/github.com/jonathaningram/dark-omen/-/badge.svg)](https://sourcegraph.com/github.com/jonathaningram/dark-omen)
 
 This library is for developers interested in building tools for working with Dark Omen's assets.
 
