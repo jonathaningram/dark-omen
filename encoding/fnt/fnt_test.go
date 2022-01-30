@@ -80,10 +80,3 @@ func Test_xy(t *testing.T) {
 		})
 	}
 }
-
-func truncateBytes(bs []byte, size int) []byte {
-	if len(bs) > size {
-		return bs[:size]
-	}
-	return bs
-}
