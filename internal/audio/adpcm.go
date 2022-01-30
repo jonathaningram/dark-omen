@@ -1,6 +1,8 @@
 package audio
 
-import "math"
+import (
+	"math"
+)
 
 var indexTable = [16]int16{
 	-1, -1, -1, -1, 2, 4, 6, 8,
@@ -40,7 +42,7 @@ func (b *ADPCMBlock) Index() int16           { return b.index }
 func (b *ADPCMBlock) Bytes() ([]byte, error) { return b.data, nil }
 
 func (b *ADPCMBlock) AsPCM16Block() *PCM16Block {
-	d := &blockDecoder{sample: b.sample, index: b.index}
+	d := &blockDecoder{sample: int(b.sample), index: b.index}
 
 	var data []int16
 
@@ -53,44 +55,63 @@ func (b *ADPCMBlock) AsPCM16Block() *PCM16Block {
 }
 
 type blockDecoder struct {
-	sample int16
+	sample int
 	index  int16
 }
 
-func (d *blockDecoder) decode(nibble byte) int16 {
-	step := stepTable[d.index]
+// originalSample is a 4-bit ADPCM sample.
+//
+// The return value newSample is the resulting 16-bit two's complement variable.
+//
+// See https://www.cs.columbia.edu/~hgs/audio/dvi/IMA_ADPCM.pdf at page 32 for
+// the algorithm and for example input. Note: The example input does appear to
+// be wrong though because `if (0x8763 > 32767) == FALSE` is actually true.
+func (d *blockDecoder) decode(originalSample byte) int16 {
+	// Find quantizer step size.
+	stepSize := int(stepTable[d.index])
 
-	diff := int16(0)
-	if nibble&4 != 0 {
-		diff += step
+	// Calculate difference:
+	//
+	//   diff = (originalSample + 1/2) * stepSize/4
+	//
+	// Perform multiplication through repetitive addition.
+	var diff int
+	if originalSample&4 != 0 {
+		diff += stepSize
 	}
-	if nibble&2 != 0 {
-		diff += step >> 1
+	if originalSample&2 != 0 {
+		diff += stepSize >> 1
 	}
-	if nibble&1 != 0 {
-		diff += step >> 2
+	if originalSample&1 != 0 {
+		diff += stepSize >> 2
 	}
-	diff += step >> 3
+	diff += stepSize >> 3
 
-	if nibble&8 != 0 {
+	// Account for sign bit.
+	if originalSample&8 != 0 {
 		diff = -diff
 	}
 
+	// Adjust predicted sample based on calculated difference.
 	newSample := d.sample + diff
-	if newSample > math.MaxInt16 {
+	if newSample > math.MaxInt16 { // check for overflow
 		newSample = math.MaxInt16
 	} else if newSample < math.MinInt16 {
 		newSample = math.MinInt16
 	}
+
+	// Store 16-bit new sample.
 	d.sample = newSample
 
-	index := d.index + indexTable[nibble]
-	if index < 0 {
+	// Adjust index into step size lookup table using original sample.
+	index := d.index + indexTable[originalSample]
+	if index < 0 { // check for index underflow
 		index = 0
-	} else if index >= int16(len(stepTable)) {
-		index = int16(len(stepTable)) - 1
+	} else if index > 88 { // check for index overflow
+		index = 88
 	}
 	d.index = index
 
-	return newSample
+	// Value has been clamped, can now convert to int16.
+	return int16(newSample)
 }

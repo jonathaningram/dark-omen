@@ -119,6 +119,9 @@ func BenchmarkEncodeToWAV(b *testing.B) {
 func TestEncodeToWAV(t *testing.T) {
 	tests := []string{
 		"A_AYESIR.MAD",
+		"A_ITEM.MAD",
+		"KZ007.MAD",
+		"T_KZ071.MAD",
 		"U_AYE.MAD",
 	}
 	for _, tt := range tests {

@@ -111,6 +111,7 @@ func TestEncodeToWAV(t *testing.T) {
 	tests := []string{
 		"1BOUN001.SAD",
 		"1CHAS001.SAD",
+		"09EERIE.SAD",
 	}
 	for _, tt := range tests {
 		t.Run(tt, func(t *testing.T) {
