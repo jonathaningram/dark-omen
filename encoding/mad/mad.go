@@ -11,7 +11,7 @@ import (
 type Stream struct {
 	Blocks []audio.Block
 
-	// Note: storing these so that a re-encoded stream is correct. sample 99 is
+	// Note: Storing these so that a re-encoded stream is correct. sample 99 is
 	// always a different value and index 99 is always equal to 99. Not sure if
 	// sample99 needs to end up in the decoded stream—currently it does not.
 
