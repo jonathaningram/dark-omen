@@ -3,7 +3,7 @@ package fnt
 import (
 	"bytes"
 	"image"
-	"io/ioutil"
+	"os"
 	"path"
 	"testing"
 )
@@ -18,7 +18,7 @@ func BenchmarkDecode(b *testing.B) {
 	for _, tt := range tests {
 		b.Run(tt, func(b *testing.B) {
 			b.ReportAllocs()
-			bs, err := ioutil.ReadFile(path.Join("testdata", tt))
+			bs, err := os.ReadFile(path.Join("testdata", tt))
 			if err != nil {
 				b.Fatal(err)
 			}

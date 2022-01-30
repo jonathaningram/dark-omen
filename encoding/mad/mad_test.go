@@ -3,7 +3,6 @@ package mad
 import (
 	"bytes"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"reflect"
@@ -24,7 +23,7 @@ func BenchmarkDecode(b *testing.B) {
 	for _, tt := range tests {
 		b.Run(tt, func(b *testing.B) {
 			b.ReportAllocs()
-			bs, err := ioutil.ReadFile(path.Join("testdata", tt))
+			bs, err := os.ReadFile(path.Join("testdata", tt))
 			if err != nil {
 				b.Fatal(err)
 			}
@@ -91,7 +90,7 @@ func BenchmarkEncodeToWAV(b *testing.B) {
 	for _, tt := range tests {
 		b.Run(tt, func(b *testing.B) {
 			b.ReportAllocs()
-			bs, err := ioutil.ReadFile(path.Join("testdata", tt))
+			bs, err := os.ReadFile(path.Join("testdata", tt))
 			if err != nil {
 				b.Fatal(err)
 			}
@@ -102,7 +101,7 @@ func BenchmarkEncodeToWAV(b *testing.B) {
 			}
 			for n := 0; n < b.N; n++ {
 				b.StopTimer()
-				tmp, err := ioutil.TempFile("", "wav")
+				tmp, err := os.CreateTemp("", "wav")
 				if err != nil {
 					b.Fatal(err)
 				}
@@ -137,7 +136,7 @@ func TestEncodeToWAV(t *testing.T) {
 				t.Fatalf("Decode() error = %v, want nil", err)
 			}
 
-			tmp, err := ioutil.TempFile("", "wav")
+			tmp, err := os.CreateTemp("", "wav")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -147,11 +146,11 @@ func TestEncodeToWAV(t *testing.T) {
 				t.Fatalf("EncodeToWAV() error = %v, want nil", err)
 			}
 
-			got, err := ioutil.ReadFile(tmp.Name())
+			got, err := os.ReadFile(tmp.Name())
 			if err != nil {
 				t.Fatal(err)
 			}
-			want, err := ioutil.ReadFile(path.Join("testdata", strings.ReplaceAll(tt, path.Ext(tt), ".WAV")))
+			want, err := os.ReadFile(path.Join("testdata", strings.ReplaceAll(tt, path.Ext(tt), ".WAV")))
 			if err != nil {
 				t.Fatal(err)
 			}

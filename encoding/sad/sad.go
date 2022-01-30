@@ -4,7 +4,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"io"
-	"io/ioutil"
 
 	"github.com/jonathaningram/dark-omen/internal/audio"
 )
@@ -94,7 +93,7 @@ func (d *Decoder) Decode() (*Stream, error) {
 	}
 
 	// Read remaining bytes.
-	buf, err := ioutil.ReadAll(d.r)
+	buf, err := io.ReadAll(d.r)
 	if err != nil {
 		return nil, err
 	}
