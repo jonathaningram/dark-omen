@@ -2,7 +2,6 @@ package engrel
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -23,7 +22,7 @@ func runIfDarkOmenPathSet(t *testing.T) string {
 func TestReadMagicItemNamesReal(t *testing.T) {
 	darkOmenPath := runIfDarkOmenPathSet(t)
 
-	bs, err := ioutil.ReadFile(path.Join(darkOmenPath, "DARKOMEN", "DARKOMEN", "PRG_ENG", "ENGREL.EXE"))
+	bs, err := os.ReadFile(path.Join(darkOmenPath, "DARKOMEN", "DARKOMEN", "PRG_ENG", "ENGREL.EXE"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -69,7 +68,7 @@ func TestReadMagicItemNamesReal(t *testing.T) {
 func TestReadMagicItemNameReal(t *testing.T) {
 	darkOmenPath := runIfDarkOmenPathSet(t)
 
-	bs, err := ioutil.ReadFile(path.Join(darkOmenPath, "DARKOMEN", "DARKOMEN", "PRG_ENG", "ENGREL.EXE"))
+	bs, err := os.ReadFile(path.Join(darkOmenPath, "DARKOMEN", "DARKOMEN", "PRG_ENG", "ENGREL.EXE"))
 	if err != nil {
 		t.Fatal(err)
 	}
