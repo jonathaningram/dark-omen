@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"log"
@@ -76,7 +75,7 @@ func main() {
 
 		fmt.Printf("Decoding %s...", relativePath)
 
-		stream, err := sad.NewDecoder(bufio.NewReader(f)).Decode()
+		stream, err := sad.NewDecoder(f).Decode()
 		if err != nil {
 			fmt.Printf("failed\n")
 			return err
