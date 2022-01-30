@@ -1,7 +1,6 @@
 package mad
 
 import (
-	"bufio"
 	"bytes"
 	"io"
 	"io/ioutil"
@@ -64,7 +63,7 @@ func TestRoundTrip(t *testing.T) {
 			defer f.Close()
 
 			want := &bytes.Buffer{}
-			stream, err := NewDecoder(bufio.NewReader(io.TeeReader(f, want))).Decode()
+			stream, err := NewDecoder(io.TeeReader(f, want)).Decode()
 			if err != nil {
 				t.Fatalf("Decode() error = %v, want nil", err)
 			}
@@ -130,7 +129,7 @@ func TestEncodeToWAV(t *testing.T) {
 			}
 			defer f.Close()
 
-			stream, err := NewDecoder(bufio.NewReader(f)).Decode()
+			stream, err := NewDecoder(f).Decode()
 			if err != nil {
 				t.Fatalf("Decode() error = %v, want nil", err)
 			}
