@@ -11,5 +11,5 @@ require (
 
 require (
 	github.com/go-audio/riff v1.0.0 // indirect
-	golang.org/x/image v0.6.0 // indirect
+	golang.org/x/image v0.10.0 // indirect
 )
