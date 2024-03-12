@@ -2,6 +2,7 @@ package spr
 
 import (
 	"bufio"
+	"errors"
 	"io"
 )
 
@@ -24,7 +25,7 @@ func unpackBits(r io.Reader) ([]byte, error) {
 	for {
 		b, err := br.ReadByte()
 		if err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				return dst, nil
 			}
 			return nil, err
